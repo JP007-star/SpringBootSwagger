@@ -1,0 +1,148 @@
+swagger: "2.0"
+info:
+  description: "This Student Rest API is a used to  perform CRUD operation "
+  version: "1.0.0"
+  title: "Student Rest API Controller"
+  contact:
+    email: "jaya_muthukrishnan@thbs.com"
+host: "localhost:9988"
+basePath: "/studentApi"
+schemes:
+- "http"
+consumes:
+  - application/json
+  - application/xml
+produces:
+  - application/json
+  - application/xml
+paths:
+  /studentApi/fetchStudents:
+    get:
+      tags:
+      - "Students"
+      summary: "Fetch All Students"
+      operationId: "fetchAllstudents"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/student"
+  /studentApi/addStudent:
+    post:
+      tags:
+      - "student"
+      summary: "Add New Student"
+      operationId: "addNewstudent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "student object"
+          required: true
+          schema:
+           $ref: "#/definitions/student"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/student"
+        400:
+          description: "Error Occured. "
+  /studentApi/getStudentById/{studentID}:
+    get:
+      tags:
+      - "student"
+      summary: "Get Student Details by  Student ID"
+      operationId: "getstudentByID"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "studentID"
+        type: "integer"
+        description: "student ID "
+        required: true
+      responses:
+        404:
+          description: "student not found"
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/student"
+  /studentApi/updateStudentById/{studentID}:
+    put:
+      tags:
+      - "student"
+      summary: "Updates a Student data"
+      operationId: "updatestudent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "studentID"
+        in: "path"
+        description: "ID of student that needs to be updated"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "body"
+        in: "body"
+        description: "Updated Student Data"
+        required: true
+        schema:
+          $ref: "#/definitions/student"
+      responses:
+        200:
+          description: "Successfully Updated"
+          schema:
+            $ref: "#/definitions/student"
+        400:
+          description: "student Id does not exists"
+  /studentApi/deleteStudentById/{studentID}:
+    delete:
+      tags:
+      - "student"
+      summary: "Delete a Student By Id"
+      operationId: "deletestudent"
+      produces:
+      - "text/plain"
+      parameters:
+      - name: "studentID"
+        in: "path"
+        description: "Student Id to Delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Student deleted successfully"
+        400:
+          description: "Invalid Student ID"
+
+
+definitions:
+  student:
+    type: "object"
+    properties:
+      studentId:
+        type: "integer"
+        format: "int64"
+      studentName:
+        type: "string"
+      studentAge:
+        type: "integer"
+        format: "int64"
+      studentFee:
+        type: "integer"
+        format: "int64"
+      
