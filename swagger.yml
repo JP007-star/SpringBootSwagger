@@ -16,7 +16,7 @@ produces:
   - application/json
   - application/xml
 paths:
-  /studentApi/fetchStudents:
+  /fetchStudents:
     get:
       tags:
       - "Students"
@@ -31,7 +31,7 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/student"
-  /studentApi/addStudent:
+  /addStudent:
     post:
       tags:
       - "student"
@@ -55,7 +55,7 @@ paths:
             $ref: "#/definitions/student"
         400:
           description: "Error Occured. "
-  /studentApi/getStudentById/{studentID}:
+  /getStudentById/{studentID}:
     get:
       tags:
       - "student"
@@ -78,7 +78,7 @@ paths:
             type: "object"
             items:
               $ref: "#/definitions/student"
-  /studentApi/updateStudentById/{studentID}:
+  /updateStudentById/{studentID}:
     put:
       tags:
       - "student"
@@ -108,7 +108,7 @@ paths:
             $ref: "#/definitions/student"
         400:
           description: "student Id does not exists"
-  /studentApi/deleteStudentById/{studentID}:
+  /deleteStudentById/{studentID}:
     delete:
       tags:
       - "student"

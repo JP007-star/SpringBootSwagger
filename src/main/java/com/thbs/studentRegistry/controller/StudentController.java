@@ -1,11 +1,8 @@
 package com.thbs.studentRegistry.controller;
-
-
 import com.thbs.studentRegistry.entity.Student;
 import com.thbs.studentRegistry.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
