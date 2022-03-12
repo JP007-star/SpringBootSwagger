@@ -5,7 +5,7 @@ info:
   title: "Student Rest API Controller"
   contact:
     email: "jaya_muthukrishnan@thbs.com"
-host: "localhost:9988"
+host: "localhost:9999"
 basePath: "/studentApi"
 schemes:
 - "http"
@@ -16,7 +16,7 @@ produces:
   - application/json
   - application/xml
 paths:
-  /fetchStudents:
+  /getAllStudents:
     get:
       tags:
       - "Students"

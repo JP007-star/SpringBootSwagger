@@ -1,165 +1,73 @@
 package com.thbs.studentRegistry.service;
 
 import com.thbs.studentRegistry.entity.Student;
+import com.thbs.studentRegistry.exception.StudentAlreadyExistException;
+import com.thbs.studentRegistry.exception.StudentNotFoundException;
+import com.thbs.studentRegistry.exception.StudentParameterNotFoundException;
 import com.thbs.studentRegistry.repository.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+
 
 @Service
-public class StudentService implements StudentRepository {
+public class StudentService {
     @Autowired
     StudentRepository studentRepository;
-    @Override
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
     public List<Student> findAll() {
+        LOG.info("findAll");
         return studentRepository.findAll();
     }
 
-    @Override
-    public List<Student> findAll(Sort sort) {
-        return null;
-    }
 
-    @Override
-    public Page<Student> findAll(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public List<Student> findAllById(Iterable<Long> longs) {
-        return null;
-    }
-
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
     public void deleteById(Long aLong) {
+        LOG.info("deleteById");
         studentRepository.deleteById(aLong);
     }
 
-    @Override
-    public void delete(Student entity) {
+
+    public Student save(Student student) {
+        LOG.info("save");
+        if(student.getStudentId() ==null||student.getStudentName()==null || student.getStudentAge()==null || student.getStudentFee()==null) {
+            throw new StudentParameterNotFoundException("601", "Invalid Input Parameters");
+        }
+        else if (studentRepository.existsById(student.getStudentId())) {
+            throw new StudentAlreadyExistException("409","Student Already Exist");
+        }
+        else {
+            return studentRepository.save(student);
+        }
 
     }
 
-    @Override
-    public void deleteAllById(Iterable<? extends Long> longs) {
+    public Student update(Student student) {
+        LOG.info("save");
+        if(student.getStudentName()==null || student.getStudentAge()==null || student.getStudentFee()==null) {
+            throw new StudentParameterNotFoundException("601", "Invalid Input Parameters");
+        }
+        else {
+            return studentRepository.save(student);
+        }
 
     }
 
-    @Override
-    public void deleteAll(Iterable<? extends Student> entities) {
 
+
+    public Student findById(Long studentId)  {
+        LOG.info("findById");
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if (studentOptional.isPresent())
+            return studentOptional.get();
+        throw new StudentNotFoundException("404","Student Not Found");
     }
 
-    @Override
-    public void deleteAll() {
 
-    }
 
-    @Override
-    public <S extends Student> S save(S entity) {
-        return studentRepository.save(entity) ;
-    }
 
-    @Override
-    public <S extends Student> List<S> saveAll(Iterable<S> entities) {
-        return null;
-    }
 
-    @Override
-    public Optional<Student> findById(Long aLong) {
-        return studentRepository.findById(aLong);
-    }
-
-    @Override
-    public boolean existsById(Long aLong) {
-        return false;
-    }
-
-    @Override
-    public void flush() {
-
-    }
-
-    @Override
-    public <S extends Student> S saveAndFlush(S entity) {
-        return null;
-    }
-
-    @Override
-    public <S extends Student> List<S> saveAllAndFlush(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
-    public void deleteAllInBatch(Iterable<Student> entities) {
-
-    }
-
-    @Override
-    public void deleteAllByIdInBatch(Iterable<Long> longs) {
-
-    }
-
-    @Override
-    public void deleteAllInBatch() {
-
-    }
-
-    @Override
-    public Student getOne(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public Student getById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public <S extends Student> Optional<S> findOne(Example<S> example) {
-        return Optional.empty();
-    }
-
-    @Override
-    public <S extends Student> List<S> findAll(Example<S> example) {
-        return null;
-    }
-
-    @Override
-    public <S extends Student> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
-    }
-
-    @Override
-    public <S extends Student> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public <S extends Student> long count(Example<S> example) {
-        return 0;
-    }
-
-    @Override
-    public <S extends Student> boolean exists(Example<S> example) {
-        return false;
-    }
-
-    @Override
-    public <S extends Student, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
-        return null;
-    }
 }
